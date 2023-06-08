@@ -1,6 +1,6 @@
 !/bin/bash
 echo "Welcome to the hostsubnet $ netnamespace (Openshift SDN objects) patcher script"
-wait 1s
+sleep 1s
 echo "Would you like to: \
 (1) - Add egress ip's to a project \
 (2) - Add egress ip's to worker nodes"
@@ -135,7 +135,7 @@ read usr_choice
           echo "Wrong choice please re-run the script"
  fi
 
-wait 1s
+sleep 1s
 echo -n "A report will be generated indicating all of the updated hostsubnet's for each node\
 file path is ./hostsub_report.txt"
 oc get hostsubnet | awk '{print $1, $5, $6, $7}' >> ./hostsub_report.txt
