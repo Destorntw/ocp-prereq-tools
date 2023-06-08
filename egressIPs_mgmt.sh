@@ -2,8 +2,8 @@
 echo "Welcome to the hostsubnet & netnamespace (Openshift SDN objects) patcher script"
 sleep 1s
 echo "Would you like to: \
-(1) - Add egress ip's to a project \
-(2) - Add egress ip's to worker nodes"
+(1) - Add egress ip's to worker nodes \
+(2) - Add egress ip's to a project (ns)"
 read usr_choice
  if [ $usr_choice -eq 1 ]
  then
