@@ -1,5 +1,5 @@
 !/bin/bash
-echo "Welcome to the hostsubnet $ netnamespace (Openshift SDN objects) patcher script"
+echo "Welcome to the hostsubnet & netnamespace (Openshift SDN objects) patcher script"
 sleep 1s
 echo "Would you like to: \
 (1) - Add egress ip's to a project \
