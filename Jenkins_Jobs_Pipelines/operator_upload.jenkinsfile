@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('User Input') {
+            steps {
+                script {
+                    // Ask for the file location
+                    def fileLocation = input(
+                        id: 'fileLocation',
+                        message: 'Please provide the file.tar location:',
+                        parameters: [string(defaultValue: '', description: 'File location', name: 'FILE_LOCATION')]
+                    )
+
+                    // Ask for the registry FQDN
+                    def registryFqdn = input(
+                        id: 'registryFqdn',
+                        message: 'What is the registry FQDN?',
+                        parameters: [string(defaultValue: '', description: 'Registry FQDN', name: 'REGISTRY_FQDN')]
+                    )
+
+                    // Ask for the rocker repo port
+                    def rockerPort = input(
+                        id: 'rockerPort',
+                        message: 'What is the rocker repo port?',
+                        parameters: [string(defaultValue: '', description: 'Rocker repo port', name: 'ROCKER_PORT')]
+                    )
+
+                    // Ask for the operator name
+                    def operatorName = input(
+                        id: 'operatorName',
+                        message: 'What is the operator name (directory that holds the operator)?',
+                        parameters: [string(defaultValue: '', description: 'Operator name', name: 'OPERATOR_NAME')]
+                    )
+
+                    // Set up environment variables to pass inputs to subsequent stages
+                    env.FILE_LOCATION = fileLocation
+                    env.REGISTRY_FQDN = registryFqdn
+                    env.ROCKER_PORT = rockerPort
+                    env.OPERATOR_NAME = operatorName
+                }
+            }
+        }
+
+        stage('Run oc-mirror') {
+            steps {
+                // Run the oc-mirror command with the provided variables
+                sh "oc-mirror --from ${env.FILE_LOCATION} docker://${env.REGISTRY_FQDN}:${env.ROCKER_PORT}/${env.OPERATOR_NAME} --dest-skip-tls"
+            }
+        }
+    }
+}
