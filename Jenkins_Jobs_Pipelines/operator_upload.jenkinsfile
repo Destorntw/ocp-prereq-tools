@@ -20,10 +20,10 @@ pipeline {
                     )
 
                     // Ask for the rocker repo port
-                    def rockerPort = input(
+                    def dockerPort = input(
                         id: 'rockerPort',
-                        message: 'What is the rocker repo port?',
-                        parameters: [string(defaultValue: '', description: 'Rocker repo port', name: 'ROCKER_PORT')]
+                        message: 'What is the docker repo port?',
+                        parameters: [string(defaultValue: '', description: 'Docker repo port', name: 'DOCKER_PORT')]
                     )
 
                     // Ask for the operator name
@@ -36,7 +36,7 @@ pipeline {
                     // Set up environment variables to pass inputs to subsequent stages
                     env.FILE_LOCATION = fileLocation
                     env.REGISTRY_FQDN = registryFqdn
-                    env.ROCKER_PORT = rockerPort
+                    env.DOCKER_PORT = dockerPort
                     env.OPERATOR_NAME = operatorName
                 }
             }
@@ -45,7 +45,7 @@ pipeline {
         stage('Run oc-mirror') {
             steps {
                 // Run the oc-mirror command with the provided variables
-                sh "oc-mirror --from ${env.FILE_LOCATION} docker://${env.REGISTRY_FQDN}:${env.ROCKER_PORT}/${env.OPERATOR_NAME} --dest-skip-tls"
+                sh "oc-mirror --from ${env.FILE_LOCATION} docker://${env.REGISTRY_FQDN}:${env.DOCKER_PORT}/${env.OPERATOR_NAME} --dest-skip-tls"
             }
         }
     }
